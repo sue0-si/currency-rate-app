@@ -1,7 +1,9 @@
+import 'package:currency_rate/di/di_setup.dart';
 import 'package:currency_rate/ui/main_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
+  diSetup();
   runApp(const MyApp());
 }
 

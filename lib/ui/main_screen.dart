@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../data/repository/main_repository.dart';
+
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
 
@@ -8,18 +10,6 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  // 기준 통화
-  String _baseCurrency = 'KRW';
-
-  // 대상 통화
-  String _targetCurrency = 'USD';
-
-  // 기준 통화 금액
-  double _baseAmount = 1000.0;
-
-  // 대상 통화 금액
-  double _targetAmount = 0.0;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

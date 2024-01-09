@@ -33,12 +33,7 @@ class CurrencyModel {
 
   @override
   String toString() {
-    return 'CurrencyModel{' +
-        ' lastUpdateTime: $lastUpdateTime,' +
-        ' nextUpdateTime: $nextUpdateTime,' +
-        ' baseCode: $baseCode,' +
-        ' rates: $rates,' +
-        '}';
+    return 'CurrencyModel{ lastUpdateTime: $lastUpdateTime, nextUpdateTime: $nextUpdateTime, baseCode: $baseCode, rates: $rates,}';
   }
 
   CurrencyModel copyWith({
@@ -55,16 +50,16 @@ class CurrencyModel {
     );
   }
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
-      'lastUpdateTime': this.lastUpdateTime,
-      'nextUpdateTime': this.nextUpdateTime,
-      'baseCode': this.baseCode,
-      'rates': this.rates,
+      'lastUpdateTime': lastUpdateTime,
+      'nextUpdateTime': nextUpdateTime,
+      'baseCode': baseCode,
+      'rates': rates,
     };
   }
 
-  factory CurrencyModel.fromMap(Map<String, dynamic> map) {
+  factory CurrencyModel.fromJson(Map<String, dynamic> map) {
     return CurrencyModel(
       lastUpdateTime: map['lastUpdateTime'] as int,
       nextUpdateTime: map['nextUpdateTime'] as int,
