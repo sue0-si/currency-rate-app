@@ -1,9 +1,8 @@
 import 'package:currency_rate/data/dto/currency_dto.dart';
 import 'package:currency_rate/data/model/currency_model.dart';
 
-Map<String, dynamic> myMap = {};
 
-extension currencyToDTO on CurrencyDto {
+extension CurrencyToDTO on CurrencyDto {
 
   CurrencyModel toCurrencyModel() {
     return CurrencyModel(lastUpdateTime: timeLastUpdateUnix ?? 0,

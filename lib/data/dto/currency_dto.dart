@@ -10,6 +10,7 @@ class CurrencyDto {
     this.timeNextUpdateUtc,
     this.timeEolUnix,
     this.baseCode,
+    this.rates,
   });
 
   CurrencyDto.fromJson(dynamic json) {
