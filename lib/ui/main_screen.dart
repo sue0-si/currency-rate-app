@@ -39,6 +39,7 @@ class _MainScreenState extends State<MainScreen> {
           children: [
             // 기준 통화 금액 입력 필드
             TextField(
+              controller: _textController,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
                 labelText: '기준 통화 금액',
@@ -52,6 +53,7 @@ class _MainScreenState extends State<MainScreen> {
               value: viewModel.baseCurrency,
               onChanged: (value) {
                 viewModel.baseCurrency = value!;
+                viewModel.exchangeCurrency(viewModel.baseCurrency);
               },
               items: [
                 DropdownMenuItem(
@@ -74,7 +76,6 @@ class _MainScreenState extends State<MainScreen> {
             ),
             // 대상 통화 금액 입력 필드
             TextField(
-              controller: _textController,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
                 labelText: '대상 통화 금액',
