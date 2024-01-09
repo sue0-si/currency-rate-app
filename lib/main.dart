@@ -1,6 +1,8 @@
 import 'package:currency_rate/di/di_setup.dart';
 import 'package:currency_rate/ui/main_screen.dart';
+import 'package:currency_rate/ui/main_viewModel.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   diSetup();
@@ -16,12 +18,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MainScreen(),
+      home: ChangeNotifierProvider(
+        create: (_) => getIt<MainViewModel>(),
+        child: const MainScreen(),
+      ),
     );
   }
 }
-

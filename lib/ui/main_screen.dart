@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../data/repository/main_repository.dart';
+import 'main_viewModel.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -10,11 +11,27 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  final _textController = TextEditingController();
+
+  @override
+  void dispose() {
+    _textController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final viewModel = context.watch<MainViewModel>();
+
+    void _updateTargetAmount() {
+      setState(() {
+        viewModel.exchangeCurrency(viewModel.baseCurrency);
+      });
+    }
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('환율 계산기'),
+        title: const Text('환율 계산기'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -27,14 +44,14 @@ class _MainScreenState extends State<MainScreen> {
                 labelText: '기준 통화 금액',
               ),
               onChanged: (value) {
-                _baseAmount = double.parse(value);
+                viewModel.baseAmount = double.parse(value);
               },
             ),
             // 기준 통화 드롭다운 목록
             DropdownButton<String>(
-              value: _baseCurrency,
+              value: viewModel.baseCurrency,
               onChanged: (value) {
-                _baseCurrency = value!;
+                viewModel.baseCurrency = value!;
               },
               items: [
                 DropdownMenuItem(
@@ -57,6 +74,7 @@ class _MainScreenState extends State<MainScreen> {
             ),
             // 대상 통화 금액 입력 필드
             TextField(
+              controller: _textController,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
                 labelText: '대상 통화 금액',
@@ -64,10 +82,10 @@ class _MainScreenState extends State<MainScreen> {
             ),
             // 대상 통화 드롭다운 목록
             DropdownButton<String>(
-              value: _targetCurrency,
+              value: viewModel.targetCurrency,
               onChanged: (value) {
-                _targetCurrency = value!;
-                // _updateTargetAmount();
+                viewModel.targetCurrency = value!;
+                _updateTargetAmount();
               },
               items: [
                 DropdownMenuItem(
