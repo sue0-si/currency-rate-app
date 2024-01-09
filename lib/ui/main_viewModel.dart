@@ -42,15 +42,15 @@ class MainViewModel extends ChangeNotifier {
     _resultText = value;
   }
 
-  Future<void> exchangeCurrency(bool isFromTextField, String baseAmount,
+  Future<void> exchangeCurrency(bool forTargetTextField, String baseAmount,
       String targetAmount, String baseCurrency, String targetCurrency) async {
     final result = await _repository.getCurrencyDto(baseCurrency);
 
-    _inputAmount = (isFromTextField
+    _inputAmount = (forTargetTextField
             ? num.tryParse(baseAmount)
             : num.tryParse(targetAmount)) ??
         0.0;
-    _convertedAmount = isFromTextField
+    _convertedAmount = forTargetTextField
         ? _inputAmount *
             result.rates[targetCurrency] /
             result.rates[baseCurrency]
