@@ -1,30 +1,18 @@
 class CurrencyDto {
-  String? result;
-  String? provider;
-  String? documentation;
-  String? termsOfUse;
-  int? timeLastUpdateUnix;
-  String? timeLastUpdateUtc;
-  int? timeNextUpdateUnix;
-  String? timeNextUpdateUtc;
-  int? timeEolUnix;
-  String? baseCode;
-  Rates? rates;
+  CurrencyDto({
+    this.result,
+    this.provider,
+    this.documentation,
+    this.termsOfUse,
+    this.timeLastUpdateUnix,
+    this.timeLastUpdateUtc,
+    this.timeNextUpdateUnix,
+    this.timeNextUpdateUtc,
+    this.timeEolUnix,
+    this.baseCode,
+  });
 
-  CurrencyDto(
-      {this.result,
-        this.provider,
-        this.documentation,
-        this.termsOfUse,
-        this.timeLastUpdateUnix,
-        this.timeLastUpdateUtc,
-        this.timeNextUpdateUnix,
-        this.timeNextUpdateUtc,
-        this.timeEolUnix,
-        this.baseCode,
-        this.rates});
-
-  CurrencyDto.fromJson(Map<String, dynamic> json) {
+  CurrencyDto.fromJson(dynamic json) {
     result = json['result'];
     provider = json['provider'];
     documentation = json['documentation'];
@@ -35,25 +23,34 @@ class CurrencyDto {
     timeNextUpdateUtc = json['time_next_update_utc'];
     timeEolUnix = json['time_eol_unix'];
     baseCode = json['base_code'];
-    rates = json['rates'] != null ? Rates.fromJson(json['rates']) : null;
+    rates = json['rates'];
   }
+
+  String? result;
+  String? provider;
+  String? documentation;
+  String? termsOfUse;
+  int? timeLastUpdateUnix;
+  String? timeLastUpdateUtc;
+  int? timeNextUpdateUnix;
+  String? timeNextUpdateUtc;
+  int? timeEolUnix;
+  String? baseCode;
+  Map<String, dynamic>? rates;
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['result'] = result;
-    data['provider'] = provider;
-    data['documentation'] = documentation;
-    data['terms_of_use'] = termsOfUse;
-    data['time_last_update_unix'] = timeLastUpdateUnix;
-    data['time_last_update_utc'] = timeLastUpdateUtc;
-    data['time_next_update_unix'] = timeNextUpdateUnix;
-    data['time_next_update_utc'] = timeNextUpdateUtc;
-    data['time_eol_unix'] = timeEolUnix;
-    data['base_code'] = baseCode;
-    if (rates != null) {
-      data['rates'] = rates!.toJson();
-    }
-    return data;
+    final map = <String, dynamic>{};
+    map['result'] = result;
+    map['provider'] = provider;
+    map['documentation'] = documentation;
+    map['terms_of_use'] = termsOfUse;
+    map['time_last_update_unix'] = timeLastUpdateUnix;
+    map['time_last_update_utc'] = timeLastUpdateUtc;
+    map['time_next_update_unix'] = timeNextUpdateUnix;
+    map['time_next_update_utc'] = timeNextUpdateUtc;
+    map['time_eol_unix'] = timeEolUnix;
+    map['base_code'] = baseCode;
+    map['rates'] = rates;
+    return map;
   }
 }
-
