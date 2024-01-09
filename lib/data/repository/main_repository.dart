@@ -1,5 +1,5 @@
-import '../dto/currency_dto.dart';
+import '../model/currency_model.dart';
 
 abstract interface class MainRepository {
- Future<CurrencyDto> getCurrencyDto(String baseCurrency);
+  Future<CurrencyModel> getCurrencyDto(String baseCurrency);
 }
