@@ -4,17 +4,17 @@ class CurrencyModel {
    int lastUpdateTime;
    int nextUpdateTime;
    String baseCode;
-   Map rates;
+   Map<String, dynamic> rates;
 
 //<editor-fold desc="Data Methods">
-   CurrencyModel({
+  CurrencyModel({
     required this.lastUpdateTime,
     required this.nextUpdateTime,
     required this.baseCode,
     required this.rates,
   });
 
-   @override
+  @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is CurrencyModel &&
@@ -24,23 +24,28 @@ class CurrencyModel {
           baseCode == other.baseCode &&
           rates == other.rates);
 
-   @override
+  @override
   int get hashCode =>
       lastUpdateTime.hashCode ^
       nextUpdateTime.hashCode ^
       baseCode.hashCode ^
       rates.hashCode;
 
-   @override
+  @override
   String toString() {
-    return 'CurrencyModel{ lastUpdateTime: $lastUpdateTime, nextUpdateTime: $nextUpdateTime, baseCode: $baseCode, rates: $rates,}';
+    return 'CurrencyModel{' +
+        ' lastUpdateTime: $lastUpdateTime,' +
+        ' nextUpdateTime: $nextUpdateTime,' +
+        ' baseCode: $baseCode,' +
+        ' rates: $rates,' +
+        '}';
   }
 
-   CurrencyModel copyWith({
+  CurrencyModel copyWith({
     int? lastUpdateTime,
     int? nextUpdateTime,
     String? baseCode,
-    Map? rates,
+    Map<String, dynamic>? rates,
   }) {
     return CurrencyModel(
       lastUpdateTime: lastUpdateTime ?? this.lastUpdateTime,
@@ -50,12 +55,12 @@ class CurrencyModel {
     );
   }
 
-   Map<String, dynamic> toMap() {
+  Map<String, dynamic> toMap() {
     return {
-      'lastUpdateTime': lastUpdateTime,
-      'nextUpdateTime': nextUpdateTime,
-      'baseCode': baseCode,
-      'rates': rates,
+      'lastUpdateTime': this.lastUpdateTime,
+      'nextUpdateTime': this.nextUpdateTime,
+      'baseCode': this.baseCode,
+      'rates': this.rates,
     };
   }
 
@@ -64,7 +69,7 @@ class CurrencyModel {
       lastUpdateTime: map['lastUpdateTime'] as int,
       nextUpdateTime: map['nextUpdateTime'] as int,
       baseCode: map['baseCode'] as String,
-      rates: map['rates'] as Map,
+      rates: map['rates'] as Map<String, dynamic>,
     );
   }
 
