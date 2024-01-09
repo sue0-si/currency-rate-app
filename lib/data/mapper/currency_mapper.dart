@@ -9,7 +9,7 @@ extension currencyToDTO on CurrencyDto {
     return CurrencyModel(lastUpdateTime: timeLastUpdateUnix ?? 0,
         nextUpdateTime: timeNextUpdateUnix ?? 0,
         baseCode: baseCode ?? 'KRW',
-        rates: rates ?? '');
+        rates: rates ?? );
 
   }
 }
