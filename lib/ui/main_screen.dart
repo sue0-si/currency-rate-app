@@ -11,23 +11,19 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  final _textController = TextEditingController();
+  final TextEditingController _fromController = TextEditingController();
+  final TextEditingController _toController = TextEditingController();
 
   @override
   void dispose() {
-    _textController.dispose();
+    _fromController.dispose();
+    _toController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<MainViewModel>();
-
-    void _updateTargetAmount() {
-      setState(() {
-        viewModel.exchangeCurrency(viewModel.baseCurrency);
-      });
-    }
 
     return Scaffold(
       appBar: AppBar(
@@ -39,21 +35,32 @@ class _MainScreenState extends State<MainScreen> {
           children: [
             // 기준 통화 금액 입력 필드
             TextField(
+              controller: _fromController,
               keyboardType: TextInputType.number,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: '기준 통화 금액',
               ),
-              onChanged: (value) {
-                viewModel.baseAmount = double.parse(value);
+              onChanged: (value) async {
+                viewModel.baseAmount = value;
+                await viewModel.exchangeCurrency(
+                    true,
+                    value,
+                    viewModel.targetAmount,
+                    viewModel.baseCurrency,
+                    viewModel.targetCurrency);
+                _toController.text = viewModel.resultText;
               },
             ),
             // 기준 통화 드롭다운 목록
             DropdownButton<String>(
               value: viewModel.baseCurrency,
-              onChanged: (value) {
+              onChanged: (value) async {
                 viewModel.baseCurrency = value!;
+                await viewModel.exchangeCurrency(false, viewModel.baseAmount,
+                    _toController.text, value, viewModel.targetCurrency);
+                _fromController.text = viewModel.resultText;
               },
-              items: [
+              items: const [
                 DropdownMenuItem(
                   value: 'KRW',
                   child: Text('KRW'),
@@ -74,20 +81,28 @@ class _MainScreenState extends State<MainScreen> {
             ),
             // 대상 통화 금액 입력 필드
             TextField(
-              controller: _textController,
+              controller: _toController,
               keyboardType: TextInputType.number,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: '대상 통화 금액',
               ),
+              onChanged: (value) async {
+                viewModel.targetAmount = value;
+                await viewModel.exchangeCurrency(false, viewModel.baseAmount,
+                    value, viewModel.baseCurrency, viewModel.targetCurrency);
+                _fromController.text = viewModel.resultText;
+              },
             ),
             // 대상 통화 드롭다운 목록
             DropdownButton<String>(
               value: viewModel.targetCurrency,
-              onChanged: (value) {
+              onChanged: (value) async {
                 viewModel.targetCurrency = value!;
-                _updateTargetAmount();
+                await viewModel.exchangeCurrency(true, _fromController.text,
+                    viewModel.targetAmount, viewModel.baseCurrency, value);
+                _toController.text = viewModel.resultText;
               },
-              items: [
+              items: const [
                 DropdownMenuItem(
                   value: 'KRW',
                   child: Text('KRW'),

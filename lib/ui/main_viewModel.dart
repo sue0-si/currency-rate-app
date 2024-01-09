@@ -10,45 +10,61 @@ class MainViewModel extends ChangeNotifier {
   }) : _repository = repository;
 
   // 기준 통화
-  String _baseCurrency = 'KRW';
+  String baseCurrency = 'KRW';
 
   // 대상 통화
-  String _targetCurrency = 'USD';
+  String targetCurrency = 'USD';
 
-  double _baseAmount = 1000.0;
+  String baseAmount = '';
 
   // 대상 통화 금액
-  double _targetAmount = 0.0;
+  String targetAmount = '';
 
-  String get baseCurrency => _baseCurrency;
+  num _inputAmount = 0.0;
+  num _convertedAmount = 0.0;
+  String _resultText = '';
 
-  set baseCurrency(String value) {
-    _baseCurrency = value;
+  get inputAmount => _inputAmount;
+
+  set inputAmount(value) {
+    _inputAmount = value;
   }
 
-  String get targetCurrency => _targetCurrency;
+  get convertedAmount => _convertedAmount;
 
-  set targetCurrency(String value) {
-    _targetCurrency = value;
+  set convertedAmount(value) {
+    _convertedAmount = value;
   }
 
-  double get baseAmount => _baseAmount;
+  get resultText => _resultText;
 
-  set baseAmount(double value) {
-    _baseAmount = value;
+  set resultText(value) {
+    _resultText = value;
   }
 
-  double get targetAmount => _targetAmount;
-
-  set targetAmount(double value) {
-    _targetAmount = value;
-  }
-
-  Future<void> exchangeCurrency(String baseCurrency) async {
+  Future<void> exchangeCurrency(bool isFromTextField, String baseAmount,
+      String targetAmount, String baseCurrency, String targetCurrency) async {
     final result = await _repository.getCurrencyDto(baseCurrency);
-    _targetAmount = _baseAmount * result.rates[_targetCurrency];
+
+    _inputAmount = (isFromTextField
+            ? num.tryParse(baseAmount)
+            : num.tryParse(targetAmount)) ??
+        0.0;
+    _convertedAmount = isFromTextField
+        ? _inputAmount *
+            result.rates[targetCurrency] /
+            result.rates[baseCurrency]
+        : _inputAmount /
+            result.rates[targetCurrency] *
+            result.rates[baseCurrency];
+
+    _resultText = _convertedAmount.toStringAsFixed(2);
+    // if (isFromTextField) {
+    //   targetAmount = _resultText;
+    // } else {
+    //   baseAmount = _resultText;
+    // }
+
     notifyListeners();
   }
-
-
 }
